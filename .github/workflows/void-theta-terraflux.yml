@@ -1,0 +1,32 @@
+name: Hello Wuty
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        id: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0     # tarik semua history supaya bisa reset bersih
+
+      - name: Ensure no local file changes
+        run: |
+            git reset --hard HEAD
+            git clean -fdx
+            echo "Repo cleaned"
+
+      - name: Echo Hello World with Random 6 Chars
+        run: |
+          RAND=$(tr -dc 'a-zA-Z0-9' </dev/urandom | head -c 6)
+          echo "hello world "
+        
